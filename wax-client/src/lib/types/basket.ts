@@ -1,16 +1,26 @@
-export type BasketItem = {
-  productId: string;
-  productName: string;
-  price: number;
-  pictureUrl: string;
-  brand: string;
-  type: string;
-  quantity: number;
-};
+import type { Product } from "./product";
 
-export type BasketDto = {
-  basketId: string;
-  items: BasketItem[];
-  clientSecret?: string;
-  paymentIntentId?: string;
-};
+export type Basket = {
+  basketId: string
+  clientSecret?: string
+  items: BasketItem[]
+}
+
+export class BasketItem{
+  constructor(product: Product, quantity: number){
+    this.productId = product.id;
+    this.name = product.name;
+    this.price = product.price;
+    this.pictureUrl = product.pictureUrl;
+    this.brand = product.brand;
+    this.type = product.type;
+    this.quantity = quantity
+  }
+  productId: string
+  name: string
+  price: number
+  pictureUrl: string
+  brand: string
+  type: string
+  quantity: number
+}

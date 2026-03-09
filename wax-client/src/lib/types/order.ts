@@ -23,7 +23,7 @@ export type OrderItem = {
   quantity: number;
 };
 
-export type OrderDto = {
+export type Order = {
   id: string;
   buyerId: string;
   orderDate: string;
@@ -36,7 +36,7 @@ export type OrderDto = {
   orderItems: OrderItem[];
 };
 
-export type CreateOrderDto = {
+export type CreateOrder = {
   billingAddress: BillingAddress;
   paymentSummary: PaymentSummary;
 };

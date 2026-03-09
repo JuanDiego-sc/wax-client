@@ -3,12 +3,12 @@ export type UserInfo = {
   userName: string;
 };
 
-export type LoginDto = {
+export type Login = {
   email: string;
   password: string;
 };
 
-export type RegisterDto = {
+export type Register = {
   email: string;
   password: string;
 };

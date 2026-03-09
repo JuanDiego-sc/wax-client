@@ -1,4 +1,4 @@
-export type ProductDto = {
+export type Product = {
   id: string;
   name: string;
   description: string;
@@ -19,7 +19,7 @@ export type ProductParams = {
   pageSize?: number;
 };
 
-export type CreateProductDto = {
+export type CreateProduct = {
   name: string;
   description: string;
   price: number;
@@ -31,7 +31,7 @@ export type CreateProductDto = {
   publicId?: string;
 };
 
-export type UpdateProductDto = {
+export type UpdateProduct = {
   id: string;
   name: string;
   description: string;

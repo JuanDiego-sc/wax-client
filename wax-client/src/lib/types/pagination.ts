@@ -14,3 +14,7 @@ export type Pagination = {
   pageSize: number;
   totalCount: number;
 };
+
+export type PagedList<T> = Pagination & {
+  items: T[];
+};

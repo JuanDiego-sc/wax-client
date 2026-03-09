@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import agent from "../api/agent";
-import type { CreateOrderDto, OrderDto, OrderParams } from "../types/order";
+import type { CreateOrder, Order, OrderParams } from "../types/order";
 import type { InfinityPagedList } from "../types/pagination";
 
 export const useOrders = (id?: string, params?: OrderParams) => {
@@ -18,10 +18,10 @@ export const useOrders = (id?: string, params?: OrderParams) => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<InfinityPagedList<OrderDto, string | null>>({
+  } = useInfiniteQuery<InfinityPagedList<Order, string | null>>({
     queryKey: ["orders", filter, startDate],
     queryFn: async ({ pageParam }) => {
-      const response = await agent.get<InfinityPagedList<OrderDto, string | null>>("/order", {
+      const response = await agent.get<InfinityPagedList<Order, string | null>>("/order", {
         params: {
           cursor: pageParam,
           filter,
@@ -38,15 +38,15 @@ export const useOrders = (id?: string, params?: OrderParams) => {
   const { data: order, isLoading: isLoadingOrder } = useQuery({
     queryKey: ["orders", id],
     queryFn: async () => {
-      const response = await agent.get<OrderDto>(`/order/${id}`);
+      const response = await agent.get<Order>(`/order/${id}`);
       return response.data;
     },
     enabled: !!id,
   });
 
   const createOrder = useMutation({
-    mutationFn: async (orderData: CreateOrderDto) => {
-      const response = await agent.post<OrderDto>("/order", orderData);
+    mutationFn: async (orderData: CreateOrder) => {
+      const response = await agent.post<Order>("/order", orderData);
       return response.data;
     },
     onSuccess: async () => {

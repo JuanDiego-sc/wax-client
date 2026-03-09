@@ -15,7 +15,7 @@ export const TicketStatus = {
 } as const;
 export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus];
 
-export type SupportTicketDto = {
+export type SupportTicket = {
   id: string;
   subject: string;
   description: string;
@@ -28,7 +28,7 @@ export type SupportTicketDto = {
   userEmail: string;
 };
 
-export type CreateSupportTicketDto = {
+export type CreateSupportTicket = {
   orderId: string;
   category: TicketCategory;
   status: TicketStatus;

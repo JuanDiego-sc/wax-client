@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
-import type { BasketDto } from "../types/basket";
+import type { Basket } from "../types/basket";
 
 export const useBasket = () => {
   const queryClient = useQueryClient();
@@ -8,7 +8,7 @@ export const useBasket = () => {
   const { data: basket, isLoading: isLoadingBasket } = useQuery({
     queryKey: ["basket"],
     queryFn: async () => {
-      const response = await agent.get<BasketDto>("/basket");
+      const response = await agent.get<Basket>("/basket");
       return response.data;
     },
   });
@@ -21,7 +21,7 @@ export const useBasket = () => {
       productId: string;
       quantity: number;
     }) => {
-      const response = await agent.post<BasketDto>(
+      const response = await agent.post<Basket>(
         `/basket?productId=${productId}&quantity=${quantity}`
       );
       return response.data;
@@ -29,12 +29,12 @@ export const useBasket = () => {
     onMutate: async ({ productId, quantity }) => {
       await queryClient.cancelQueries({ queryKey: ["basket"] });
 
-      const prevBasket = queryClient.getQueryData<BasketDto>(["basket"]);
+      const prevBasket = queryClient.getQueryData<Basket>(["basket"]);
 
       // If no basket exists yet, skip optimistic update — server will create it
       if (!prevBasket?.basketId) return { prevBasket };
 
-      queryClient.setQueryData<BasketDto>(["basket"], (old) => {
+      queryClient.setQueryData<Basket>(["basket"], (old) => {
         if (!old) return old;
         const existingItem = old.items.find(
           (item) => item.productId === productId
@@ -51,7 +51,7 @@ export const useBasket = () => {
                 ...old.items,
                 {
                   productId,
-                  productName: "",
+                  name: "",
                   price: 0,
                   pictureUrl: "",
                   brand: "",
@@ -90,9 +90,9 @@ export const useBasket = () => {
     onMutate: async ({ productId, quantity }) => {
       await queryClient.cancelQueries({ queryKey: ["basket"] });
 
-      const prevBasket = queryClient.getQueryData<BasketDto>(["basket"]);
+      const prevBasket = queryClient.getQueryData<Basket>(["basket"]);
 
-      queryClient.setQueryData<BasketDto>(["basket"], (old) => {
+      queryClient.setQueryData<Basket>(["basket"], (old) => {
         if (!old) return old;
         const itemIndex = old.items.findIndex(
           (item) => item.productId === productId

@@ -1,9 +1,9 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
-import type { CreateProductDto, ProductDto, ProductParams, UpdateProductDto } from "../types/product";
-import type { Pagination } from "../types/pagination";
+import type { CreateProduct, Product, ProductParams, UpdateProduct } from "../types/product";
+import type { PagedList } from "../types/pagination";
 
-const toFormData = (dto: CreateProductDto | UpdateProductDto): FormData => {
+const toFormData = (dto: CreateProduct | UpdateProduct): FormData => {
   const formData = new FormData();
   Object.entries(dto).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
@@ -20,14 +20,10 @@ export const useCatalog = (id?: string, params?: ProductParams) => {
   const { data: catalogData, isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products", orderBy, searchTerm, brands, types, pageNumber, pageSize],
     queryFn: async () => {
-      const response = await agent.get<ProductDto[]>("/product", {
+      const response = await agent.get<PagedList<Product>>("/product", {
         params: { orderBy, searchTerm, brands, types, pageNumber, pageSize },
       });
-      const paginationHeader = response.headers["pagination"];
-      const pagination: Pagination | null = paginationHeader
-        ? JSON.parse(paginationHeader)
-        : null;
-      return { items: response.data, pagination };
+      return response.data;
     },
     placeholderData: keepPreviousData,
     enabled: !id,
@@ -36,15 +32,15 @@ export const useCatalog = (id?: string, params?: ProductParams) => {
   const { data: product, isLoading: isLoadingProduct } = useQuery({
     queryKey: ["products", id],
     queryFn: async () => {
-      const response = await agent.get<ProductDto>(`/product/${id}`);
+      const response = await agent.get<Product>(`/product/${id}`);
       return response.data;
     },
     enabled: !!id,
   });
 
   const createProduct = useMutation({
-    mutationFn: async (dto: CreateProductDto) => {
-      const response = await agent.post<ProductDto>("/product", toFormData(dto), {
+    mutationFn: async (dto: CreateProduct) => {
+      const response = await agent.post<Product>("/product", toFormData(dto), {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
@@ -55,7 +51,7 @@ export const useCatalog = (id?: string, params?: ProductParams) => {
   });
 
   const updateProduct = useMutation({
-    mutationFn: async (dto: UpdateProductDto) => {
+    mutationFn: async (dto: UpdateProduct) => {
       await agent.put("/product", toFormData(dto), {
         headers: { "Content-Type": "multipart/form-data" },
       });
