@@ -19,6 +19,7 @@ import { RequiredAuth } from '@/routes/RequiredAuth';
 import { ServerErrorPage } from '@/pages/ServerErrorPage';
 import { SupportPage } from '@/pages/SupportPage';
 import { SupportTicketPage } from '@/pages/SupportTicketPage';
+import { TermsPage } from '@/pages/TermsPage';
 import { routePaths } from '@/routes/routePaths';
 import { LoginPage } from '../pages/LoginPage';
 
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: routePaths.maison,
         Component: MaisonPage,
+      },
+      {
+        path: routePaths.terms,
+        Component: TermsPage,
       },
       {
         path: routePaths.login,
