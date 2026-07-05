@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
 import { useCurrentUser, useLogout, useSaveAddress, useUserAddress } from '@/features/auth/hooks';
+import { storeLegalConsent } from '@/features/auth/utils/legalConsent';
 import { billingProfileSchema } from '@/lib/schemas/billingProfileSchema';
 import type { BillingProfileSchema } from '@/lib/schemas/billingProfileSchema';
 import type { Address, UserInfo } from '@/lib/types/user';
@@ -20,7 +21,7 @@ const countryNames: Record<string, string> = {
   ES: 'España',
 };
 
-const buildBillingDefaults = (address?: Partial<Address> | null): BillingProfileSchema => ({
+const buildBillingDefaults = (address?: Partial<Address> | null, requiresConsent = false): BillingProfileSchema => ({
   firstName: address?.firstName ?? '',
   lastName: address?.lastName ?? '',
   identificationType: address?.identificationType ?? '',
@@ -33,6 +34,10 @@ const buildBillingDefaults = (address?: Partial<Address> | null): BillingProfile
   state: address?.state ?? '',
   postalCode: address?.postalCode ?? '',
   country: address?.country ?? '',
+  requiresConsent,
+  acceptsTerms: false,
+  acceptsDataProcessing: false,
+  acceptsAiUse: false,
 });
 
 const getSaveErrorMessage = (error: unknown) => {
@@ -86,6 +91,7 @@ type BillingCompletionFormProps = {
   isPending: boolean;
   onSubmit: (values: BillingProfileSchema) => Promise<void>;
   register: ReturnType<typeof useForm<BillingProfileSchema>>['register'];
+  showConsent: boolean;
 };
 
 const BillingCompletionForm = ({
@@ -96,6 +102,7 @@ const BillingCompletionForm = ({
   isPending,
   onSubmit,
   register,
+  showConsent,
 }: BillingCompletionFormProps) => {
   const submitLabel = getSubmitLabel(addressExists, isPending || isSubmitting);
 
@@ -206,6 +213,44 @@ const BillingCompletionForm = ({
         </label>
         </div>
       </fieldset>
+
+      {showConsent ? (
+        <fieldset className="profile-fieldset profile-consent">
+          <legend className="profile-legend">Términos, datos personales y uso de IA</legend>
+          <p className="profile-consent-intro">
+            Para completar tu registro necesitamos tu aceptación expresa, conforme a la Ley Orgánica
+            de Protección de Datos Personales del Ecuador. Lee el documento completo en{' '}
+            <Link to={routePaths.terms} target="_blank" rel="noreferrer">
+              Términos, privacidad y uso de IA
+            </Link>.
+          </p>
+
+          <label className="profile-consent-option">
+            <input type="checkbox" className="profile-consent-checkbox" {...register('acceptsTerms')} />
+            <span>Acepto los Términos y Condiciones de WAX.</span>
+          </label>
+          {errors.acceptsTerms ? <span className="profile-error profile-consent-error">{errors.acceptsTerms.message}</span> : null}
+
+          <label className="profile-consent-option">
+            <input type="checkbox" className="profile-consent-checkbox" {...register('acceptsDataProcessing')} />
+            <span>
+              Autorizo el tratamiento de mis datos personales para gestionar mi cuenta, pedidos,
+              facturación y envíos, según la Política de Privacidad (LOPDP, Ecuador).
+            </span>
+          </label>
+          {errors.acceptsDataProcessing ? <span className="profile-error profile-consent-error">{errors.acceptsDataProcessing.message}</span> : null}
+
+          <label className="profile-consent-option">
+            <input type="checkbox" className="profile-consent-checkbox" {...register('acceptsAiUse')} />
+            <span>
+              Entiendo y acepto que WAX utiliza inteligencia artificial en el Atelier (asistente de
+              diseño y generación de modelos 3D) y que mis textos e imágenes de referencia se
+              procesan con proveedores externos para crear mis diseños.
+            </span>
+          </label>
+          {errors.acceptsAiUse ? <span className="profile-error profile-consent-error">{errors.acceptsAiUse.message}</span> : null}
+        </fieldset>
+      ) : null}
 
       {errors.root?.message ? <p className="profile-error profile-error-general">{errors.root.message}</p> : null}
 
@@ -325,9 +370,12 @@ export const ProfilePage = () => {
     defaultValues: buildBillingDefaults(),
   });
 
+  const isEnrolledUser = currentUser?.roles?.includes('Enrolled') ?? false;
+  const needsProfileCompletion = Boolean(currentUser) && (isEnrolledUser || (!isLoadingAddress && !address));
+
   useEffect(() => {
-    reset(buildBillingDefaults(address));
-  }, [address, reset]);
+    reset(buildBillingDefaults(address, needsProfileCompletion));
+  }, [address, needsProfileCompletion, reset]);
 
   if (isLoading) {
     return (
@@ -344,16 +392,28 @@ export const ProfilePage = () => {
     return null;
   }
 
-  const isEnrolledUser = currentUser.roles?.includes('Enrolled') ?? false;
-  const needsProfileCompletion = isEnrolledUser || (!isLoadingAddress && !address);
   const showForm = needsProfileCompletion || isEditing;
 
   const submitBillingProfile = async (values: BillingProfileSchema) => {
     try {
+      // El consentimiento no forma parte del contrato del backend; solo viajan los datos de facturación.
       await saveAddressMutation.mutateAsync({
-        ...values,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        identificationType: values.identificationType,
+        identificationNumber: values.identificationNumber,
+        phone: values.phone,
+        name: values.name,
+        line1: values.line1,
         line2: values.line2 || undefined,
+        city: values.city,
+        state: values.state,
+        postalCode: values.postalCode,
+        country: values.country,
       });
+      if (values.requiresConsent) {
+        storeLegalConsent();
+      }
       toast.success(needsProfileCompletion ? '¡Listo! Tu cuenta ha sido verificada.' : 'Datos actualizados correctamente.');
       setIsEditing(false);
     } catch (error) {
@@ -362,7 +422,7 @@ export const ProfilePage = () => {
   };
 
   const handleCancelEdit = () => {
-    reset(buildBillingDefaults(address));
+    reset(buildBillingDefaults(address, needsProfileCompletion));
     setIsEditing(false);
   };
 
@@ -402,6 +462,7 @@ export const ProfilePage = () => {
               isSubmitting={isSubmitting}
               onSubmit={submitBillingProfile}
               register={register}
+              showConsent={needsProfileCompletion}
             />
             {isEditing && !needsProfileCompletion ? (
               <div className="profile-cancel-row">

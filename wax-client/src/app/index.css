@@ -5584,6 +5584,7 @@ select {
 
 .product-details-visual {
   position: relative;
+  width: 100%;
   overflow: hidden;
   border-radius: var(--wax-radius-strong);
   aspect-ratio: 1 / 1;
@@ -6925,6 +6926,11 @@ select {
 }
 
 @media (max-width: 768px) {
+  /* en movil la pieza se muestra completa; en desktop llena el cuadro (cover) */
+  .product-details-image {
+    object-fit: contain;
+  }
+
   /* el tab bar fijo tapaba el boton instalar; se reserva su alto + holgura */
   .wax-side-menu-footer {
     padding-bottom: calc(0.5rem + 72px + env(safe-area-inset-bottom));
@@ -7037,4 +7043,78 @@ select {
   .site-main.has-tabbar {
     padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
   }
+}
+
+/* ============================================================
+   Consentimiento legal (completar registro) y página /terminos
+   ============================================================ */
+
+.profile-consent-intro {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--wax-fg-muted);
+}
+
+.profile-consent-intro a {
+  color: var(--wax-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.profile-consent-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.45rem 0;
+  cursor: pointer;
+}
+
+.profile-consent-option span {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--wax-fg);
+}
+
+.profile-consent-checkbox {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: var(--wax-accent);
+  cursor: pointer;
+}
+
+.profile-consent-error {
+  display: block;
+  margin: -0.2rem 0 0.5rem 1.7rem;
+}
+
+.legal-updated {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--wax-fg-soft);
+}
+
+.legal-section .maison-paragraph {
+  max-width: 68ch;
+}
+
+.legal-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+  max-width: 68ch;
+}
+
+.legal-list li {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--wax-fg-muted);
+}
+
+.legal-list li::marker {
+  color: var(--wax-accent);
 }
