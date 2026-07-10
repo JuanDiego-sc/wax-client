@@ -182,8 +182,8 @@ export const SupportPageContent = () => {
             <p className="support-empty-text">Aún no has abierto tickets de soporte.</p>
             <p className="support-empty-help">
               Si tienes una duda general puedes escribirnos a{' '}
-              <a href="mailto:hello@waxatelier.com" className="support-empty-link">
-                hello@waxatelier.com
+              <a href="mailto:wax.shop.ec@gmail.com" className="support-empty-link">
+                wax.shop.ec@gmail.com
               </a>{' '}
               o abrir un nuevo ticket aquí arriba.
             </p>

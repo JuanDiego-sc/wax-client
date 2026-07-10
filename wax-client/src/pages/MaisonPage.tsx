@@ -59,7 +59,7 @@ const SHIPPING = [
   },
   {
     title: 'Pago y soporte',
-    body: 'Aceptamos tarjeta y PayPal. Si necesitas detalles particulares de tu envío, escríbenos a hello@waxatelier.com o abre un ticket en Soporte.',
+    body: 'Aceptamos tarjeta y PayPal. Si necesitas detalles particulares de tu envío, escríbenos a wax.shop.ec@gmail.com o abre un ticket en Soporte.',
   },
 ];
 

@@ -17,7 +17,7 @@ const LEGAL_SECTIONS: LegalSection[] = [
     title: 'Quiénes somos y cómo contactarnos.',
     paragraphs: [
       'WAX es una marca ecuatoriana de impresión 3D, con domicilio en Quito, Ecuador, que diseña y produce accesorios únicos bajo pedido y por catálogo. Para efectos de la Ley Orgánica de Protección de Datos Personales del Ecuador (en adelante, la "LOPDP"), WAX actúa como responsable del tratamiento de los datos personales que recoge a través de este sitio (en adelante, los "DATOS").',
-      'Para cualquier consulta sobre estos términos o sobre tus DATOS puedes escribirnos al correo electrónico hello@waxatelier.com o abrir un ticket en la sección de Soporte.',
+      'Para cualquier consulta sobre estos términos o sobre tus DATOS puedes escribirnos al correo electrónico wax.shop.ec@gmail.com o abrir un ticket en la sección de Soporte.',
     ],
   },
   {
@@ -101,7 +101,7 @@ const LEGAL_SECTIONS: LegalSection[] = [
     kicker: '10. Derechos del titular y revocatoria',
     title: 'Qué puedes exigir y cómo.',
     paragraphs: [
-      'Como titular puedes ejercer en cualquier momento y de forma gratuita tus derechos de acceso, rectificación y actualización, eliminación, oposición, portabilidad y suspensión del tratamiento, dirigiendo tu solicitud al correo hello@waxatelier.com. Responderemos dentro de los plazos previstos en la LOPDP.',
+      'Como titular puedes ejercer en cualquier momento y de forma gratuita tus derechos de acceso, rectificación y actualización, eliminación, oposición, portabilidad y suspensión del tratamiento, dirigiendo tu solicitud al correo wax.shop.ec@gmail.com. Responderemos dentro de los plazos previstos en la LOPDP.',
       'También tienes derecho a presentar reclamos ante la Superintendencia de Protección de Datos Personales, autoridad de control del Ecuador.',
       'Puedes revocar este consentimiento en cualquier momento por el mismo canal. La revocatoria no afecta la licitud del tratamiento realizado con anterioridad, y WAX podrá limitar o suspender los servicios cuya prestación dependa necesariamente de los DATOS cuyo tratamiento se revoca, así como conservar los datos exigidos por obligaciones legales.',
     ],
@@ -116,7 +116,7 @@ const LEGAL_SECTIONS: LegalSection[] = [
       'Los textos que escribes y las imágenes de referencia que subes al Atelier se envían a proveedores externos de IA (OpenAI y Meshy AI) exclusivamente para generar tus diseños.',
       'Los contenidos generados por IA pueden contener imprecisiones; los bocetos y modelos son propuestas de diseño, no el producto final.',
       'Toda cotización y toda pieza pasan por revisión humana del equipo WAX antes de producirse: la inteligencia artificial asiste el diseño, pero la decisión final siempre corresponde a personas.',
-      'Puedes solicitar información sobre este tratamiento automatizado o pedir la revisión humana de cualquier resultado escribiendo a hello@waxatelier.com.',
+      'Puedes solicitar información sobre este tratamiento automatizado o pedir la revisión humana de cualquier resultado escribiendo a wax.shop.ec@gmail.com.',
     ],
     closing: [
       'Este aviso se emite en cumplimiento del deber de transparencia de la LOPDP sobre tratamientos automatizados y en línea con el Proyecto de Ley Orgánica de Regulación y Promoción de la Inteligencia Artificial que se tramita en la Asamblea Nacional del Ecuador.',
@@ -179,7 +179,7 @@ export const TermsPage = () => (
       <span className="maison-cta-kicker">¿Dudas sobre este documento?</span>
       <h2 className="maison-cta-title">Estamos para ayudarte.</h2>
       <p className="maison-cta-body">
-        Escríbenos a hello@waxatelier.com o abre un ticket y el equipo WAX te responderá.
+        Escríbenos a wax.shop.ec@gmail.com o abre un ticket y el equipo WAX te responderá.
       </p>
       <div className="maison-cta-actions">
         <Link to={routePaths.support} className="maison-cta-primary">Ir a Soporte</Link>
