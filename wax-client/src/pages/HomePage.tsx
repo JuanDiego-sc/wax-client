@@ -58,7 +58,8 @@ const homeFooterColumns: HomeFooterColumn[] = [
     links: [
       { label: 'Historia WAX', to: routePaths.maison },
       { label: 'Instagram', href: 'https://instagram.com/wax.ec' },
-      { label: 'Contacto', href: 'mailto:hello@waxatelier.com' },
+      { label: 'Contacto', href: 'mailto:wax.shop.ec@gmail.com' },
+      { label: 'Términos y privacidad', to: routePaths.terms },
     ],
   },
 ] as const;

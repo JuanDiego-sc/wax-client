@@ -56,6 +56,10 @@ describe('billingProfileSchema', () => {
     state: 'Pichincha',
     postalCode: '170150',
     country: 'EC',
+    requiresConsent: false,
+    acceptsTerms: false,
+    acceptsDataProcessing: false,
+    acceptsAiUse: false,
   };
 
   it('valida un perfil completo', () => {
@@ -85,5 +89,35 @@ describe('billingProfileSchema', () => {
 
   it('trim aplica antes de validar', () => {
     expect(billingProfileSchema.safeParse({ ...validProfile, city: '   ' }).success).toBe(false);
+  });
+
+  describe('consentimiento legal', () => {
+    const consentedProfile = {
+      ...validProfile,
+      requiresConsent: true,
+      acceptsTerms: true,
+      acceptsDataProcessing: true,
+      acceptsAiUse: true,
+    };
+
+    it('no exige consentimiento cuando requiresConsent es false (edicion de perfil)', () => {
+      expect(billingProfileSchema.safeParse(validProfile).success).toBe(true);
+    });
+
+    it('valida cuando requiresConsent es true y las tres casillas estan aceptadas', () => {
+      expect(billingProfileSchema.safeParse(consentedProfile).success).toBe(true);
+    });
+
+    it.each([
+      ['acceptsTerms'],
+      ['acceptsDataProcessing'],
+      ['acceptsAiUse'],
+    ])('rechaza si falta %s al completar registro', (field) => {
+      const result = billingProfileSchema.safeParse({ ...consentedProfile, [field]: false });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues.some((issue) => issue.path[0] === field)).toBe(true);
+      }
+    });
   });
 });

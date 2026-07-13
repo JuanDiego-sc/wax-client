@@ -1,6 +1,7 @@
 export const routePaths = {
   home: '/',
   maison: '/maison',
+  terms: '/terminos',
   login: '/login',
   register: '/register',
   profile: '/profile',
