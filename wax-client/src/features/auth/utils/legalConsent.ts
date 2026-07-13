@@ -2,7 +2,7 @@ const LEGAL_CONSENT_STORAGE_KEY = 'wax.legal.consent';
 
 // Versión del documento legal vigente; si el texto cambia, subir la fecha
 // para poder pedir re-aceptación en el futuro.
-export const LEGAL_CONSENT_VERSION = '2026-07-02';
+export const LEGAL_CONSENT_VERSION = '2026-07-04';
 
 export type LegalConsentRecord = {
   version: string;

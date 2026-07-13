@@ -27,6 +27,6 @@ export const waxMenuSections = [
 ] as const;
 
 export const waxMenuFooterLinks = [
-  { label: 'Hablar con WAX', href: 'mailto:hello@waxatelier.com' },
-  { label: 'Envíos y entregas', href: 'mailto:hello@waxatelier.com?subject=Env%C3%ADos%20y%20entregas' },
+  { label: 'Hablar con WAX', href: 'mailto:wax.shop.ec@gmail.com' },
+  { label: 'Envíos y entregas', href: 'mailto:wax.shop.ec@gmail.com?subject=Env%C3%ADos%20y%20entregas' },
 ] as const;

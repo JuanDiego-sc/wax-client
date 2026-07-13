@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router';
@@ -50,7 +49,6 @@ export const RegisterPage = () => {
     },
   });
 
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const passwordValue = watch('password') ?? '';
   const passwordStrength = evaluatePasswordStrength(passwordValue);
 
@@ -201,29 +199,7 @@ export const RegisterPage = () => {
 
             {errors.root?.message ? <p className="login-feedback login-feedback-error">{errors.root.message}</p> : null}
 
-            <label
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.6rem',
-                fontSize: '0.82rem',
-                color: 'var(--wax-fg-muted)',
-                lineHeight: 1.45,
-                cursor: 'pointer',
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={acceptedTerms}
-                onChange={(e) => setAcceptedTerms(e.target.checked)}
-                style={{ marginTop: '0.25rem', accentColor: 'var(--wax-fg)' }}
-              />
-              <span>
-                Acepto los <a href="mailto:hello@waxatelier.com?subject=T%C3%A9rminos%20y%20condiciones" style={{ color: 'var(--wax-fg)' }}>Términos y Condiciones</a> y la <a href="mailto:hello@waxatelier.com?subject=Pol%C3%ADtica%20de%20privacidad" style={{ color: 'var(--wax-fg)' }}>Política de Privacidad</a> de WAX.
-              </span>
-            </label>
-
-            <button className="login-button login-button-primary" type="submit" disabled={!isValid || !acceptedTerms || isSubmitting || registerMutation.isPending || isLoadingUser}>
+            <button className="login-button login-button-primary" type="submit" disabled={!isValid || isSubmitting || registerMutation.isPending || isLoadingUser}>
               {registerMutation.isPending || isSubmitting ? 'Creando cuenta...' : 'Crear cuenta'}
             </button>
           </form>
