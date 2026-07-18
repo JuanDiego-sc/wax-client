@@ -7118,3 +7118,14 @@ select {
 .legal-list li::marker {
   color: var(--wax-accent);
 }
+
+/* Instalar app: oculto en desktop, visible solo en mobile */
+.wax-pwa-install-slot {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wax-pwa-install-slot {
+    display: block;
+  }
+}
