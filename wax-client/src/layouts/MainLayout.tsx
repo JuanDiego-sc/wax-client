@@ -15,11 +15,11 @@ import { useBasket } from '@/features/basket/hooks/useBasket';
 import { useMyCustomProducts } from '@/features/customProducts/hooks/useMyCustomProducts';
 import { MenuToggle } from '@/layouts/MenuToggle';
 import { TabBar } from '@/layouts/TabBar';
-import { PwaInstallButton } from '@/layouts/PwaInstallButton';
 import { MiniCartDrawer } from '@/features/basket/components/MiniCartDrawer';
 import { PROFILE_COMPLETION_TOAST } from '@/lib/utils/profileToasts';
 import { useTheme } from '@/lib/hooks/useTheme';
 import { PROFILE_PROMPT_PENDING_KEY, PROFILE_WARNING_KEY } from '@/routes/RequiredAuth';
+import { PwaInstallButton } from '@/layouts/PwaInstallButton';
 import { routePaths } from '@/routes/routePaths';
 
 type FooterLink = (typeof waxMenuFooterLinks)[number];
@@ -182,7 +182,10 @@ const SideMenu = ({ isMenuOpen, toggleMenu, closeMenu, currentUserEmail, onLogou
         </Link>
       )}
 
-      <PwaInstallButton onClick={closeMenu} />
+      {/* Instalar app solo tiene sentido en mobile; en desktop el slot se oculta por CSS */}
+      <div className="wax-pwa-install-slot">
+        <PwaInstallButton onClick={closeMenu} />
+      </div>
 
       <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
         {waxMenuFooterLinks.map((item) => renderFooterLink(item))}
