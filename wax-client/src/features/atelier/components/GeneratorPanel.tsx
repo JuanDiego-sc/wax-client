@@ -168,17 +168,6 @@ export const GeneratorPanel = () => {
               )}
               <div className="atelier-task-links">
                 <span className="atelier-task-label">Modelo listo</span>
-                {taskStatus.model_urls && Object.entries(taskStatus.model_urls).map(([format, url]) => (
-                  <a
-                    key={format}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="atelier-task-download"
-                  >
-                    Descargar {format.toUpperCase()}
-                  </a>
-                ))}
               </div>
               <button className="atelier-gen-btn atelier-gen-btn--secondary" onClick={handleReset}>
                 Nuevo modelo

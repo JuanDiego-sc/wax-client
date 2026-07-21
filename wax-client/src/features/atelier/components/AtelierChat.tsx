@@ -152,9 +152,6 @@ const ModelViewerPopup = ({
 
         <div className="atelier-popup-footer">
           <p className="atelier-popup-hint">Arrastra para rotar · Pellizca para hacer zoom · En móvil toca el ícono AR para verlo en tu espacio</p>
-          <a href={glbUrl} download className="atelier-gen-download">
-            Descargar GLB
-          </a>
         </div>
       </div>
     </div>
@@ -230,9 +227,6 @@ const GenCard = ({
           <button className="atelier-gen-cta" onClick={() => onCotizar(glbUrl ?? '', msg.result?.refineTaskId ?? msg.taskId)}>
             Enviar a cotizar
           </button>
-          <a href={glbUrl} download className="atelier-gen-download">
-            Descargar GLB
-          </a>
         </div>
       </div>
     );
